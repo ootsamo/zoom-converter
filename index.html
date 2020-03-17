@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<script>
+			function convert() {
+				var a = document.createElement('a');
+				a.href = document.getElementById('url').value;
+
+				var params = a.search.replace(/^\?/, '').split('&');
+				var query = {};
+
+ 				for (let i = 0; i < params.length; i++ ) {
+ 					let pair = params[i].split('=');
+ 					query[pair[0]] = pair[1];
+ 				}
+
+				let pathComponents = a.pathname.split('/');
+				let meetingID = pathComponents[pathComponents.length - 1];
+				let password = query['pwd'];
+				let newURL = 'zoomus://zoom.us/join?confno=' + meetingID + '&pwd=' + password + '&uname=Restaurant';
+
+				let element = document.getElementById('new-url')
+				element.value = newURL;
+				
+				element.focus()
+				element.select()
+				document.execCommand('copy');
+				document.getElementById('copy-hint').innerHTML = "Copied to clipboard"
+			}
+		</script>
+		<style>
+			#container {
+				width: 100%;
+				max-width: 580px;
+				margin: auto;
+			}
+			
+			input {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<form onSubmit="convert(); return false">
+				<p>Input the original URL here and press enter:</p>
+				<input id="url" type="text"/>
+			</form>
+			<p>The new URL will appear here:</p>
+			<input type="text" id="new-url">
+			<p id="copy-hint"></p>
+		</div>
+	</body>
+</html>
